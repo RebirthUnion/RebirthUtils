@@ -1,6 +1,8 @@
 package moe.taswell.rebirthutils.nms.api.manager;
 
 import moe.taswell.rebirthutils.nms.api.nbt.PackagedCompoundTag;
+import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -22,4 +24,8 @@ public interface NbtManager {
     void writeAnyTag(PackagedCompoundTag tag,DataOutput output) throws IOException;
 
     void writeCompressed(PackagedCompoundTag tag, DataOutput output) throws IOException;
+
+    PackagedCompoundTag getTagOfItem(ItemStack itemStack);
+
+    void setTagOfItem(ItemStack itemStack,PackagedCompoundTag tag);
 }

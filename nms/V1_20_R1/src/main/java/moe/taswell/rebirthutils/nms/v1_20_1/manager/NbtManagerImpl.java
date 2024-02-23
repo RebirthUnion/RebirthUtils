@@ -5,6 +5,10 @@ import moe.taswell.rebirthutils.nms.api.nbt.PackagedCompoundTag;
 import moe.taswell.rebirthutils.nms.v1_20_1.nbt.PackagedCompoundTagImpl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
+import org.bukkit.craftbukkit.v1_20_R1.entity.CraftEntity;
+import org.bukkit.craftbukkit.v1_20_R1.inventory.CraftItemStack;
+import org.bukkit.entity.Entity;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
 
@@ -47,5 +51,15 @@ public class NbtManagerImpl implements NbtManager {
     @Override
     public void writeCompressed(PackagedCompoundTag tag, DataOutput output) throws IOException {
         NbtIo.writeCompressed(((PackagedCompoundTagImpl) tag).internal, ((OutputStream) output));
+    }
+
+    @Override
+    public PackagedCompoundTag getTagOfItem(ItemStack itemStack) {
+        return new PackagedCompoundTagImpl(((CraftItemStack) itemStack).handle.getTag());
+    }
+
+    @Override
+    public void setTagOfItem(ItemStack itemStack, PackagedCompoundTag tag) {
+        ((CraftItemStack) itemStack).handle.setTag(((PackagedCompoundTagImpl) tag).internal);
     }
 }
