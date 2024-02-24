@@ -1,0 +1,15 @@
+name: RebirthFun
+version: '${version}'
+main: moe.taswell.rebirthfun.RebirthFun
+api-version: '1.20'
+folia-supported: true
+depend:
+  - RebirthLibraries
+commands:
+  gcitem:
+    description: Give custom item to player
+    usage: "/gcitem <itemName>"
+permissions:
+  rebirthfun.commands.gcitem:
+    default: op
+    description: Permission to execute gcitem command

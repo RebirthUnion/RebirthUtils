@@ -1,5 +1,6 @@
 rootProject.name = "RebirthUtils"
 
+include("plugin-fun")
 include("plugin-chat")
 include("plugin-library")
 include("nms-api")

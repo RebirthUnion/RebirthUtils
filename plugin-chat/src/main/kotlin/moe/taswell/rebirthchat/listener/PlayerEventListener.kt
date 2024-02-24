@@ -28,7 +28,7 @@ object PlayerEventListener : Listener {
         }
     }
 
-    fun checkChatSpeedRate(player: Player): Boolean{
+    private fun checkChatSpeedRate(player: Player): Boolean{
         if (!this.playerLastChatTimes.containsKey(player)){
             this.playerLastChatTimes[player] = System.currentTimeMillis()
             return true
@@ -57,15 +57,15 @@ object PlayerEventListener : Listener {
         this.processQuit(player)
     }
 
-    fun processQuit(player: Player){
+    private fun processQuit(player: Player){
         this.playerLastChatTimes.remove(player)
     }
 
-    fun processJoin(player: Player){
+    private fun processJoin(player: Player){
         this.playerLastChatTimes[player] = System.currentTimeMillis()
     }
 
-    fun showTitleToPlayers(player: Player){
+    private fun showTitleToPlayers(player: Player){
         val messages = Resources.getTitleMessagesAndDelay()
 
         APIEntryPoint.getSchedulerService().runAsyncTaskNow({
