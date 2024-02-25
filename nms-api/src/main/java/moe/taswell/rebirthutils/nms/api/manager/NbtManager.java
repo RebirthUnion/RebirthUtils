@@ -28,4 +28,8 @@ public interface NbtManager {
     PackagedCompoundTag getTagOfItem(ItemStack itemStack);
 
     void setTagOfItem(ItemStack itemStack,PackagedCompoundTag tag);
+
+    Object toNms(ItemStack bukkit);
+
+    ItemStack fromNms(Object nms);
 }

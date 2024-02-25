@@ -1,7 +1,6 @@
 package moe.taswell.rebirthfun.commands;
 
-import moe.taswell.rebirthfun.items.ItemBase;
-import moe.taswell.rebirthfun.items.RegistryManager;
+import moe.taswell.rebirthfun.items.CustomItemRegistryManager;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
 import org.bukkit.command.Command;
@@ -29,7 +28,7 @@ public class GiveCustomItemCommand implements CommandExecutor {
             return false;
         }
 
-        final ItemStack target = RegistryManager.getItem(args[0]);
+        final ItemStack target = CustomItemRegistryManager.getItem(args[0]);
 
         if (target == null){
             sender.sendMessage(Component.text("Item not found!").color(TextColor.color(255,0,0)));
@@ -37,6 +36,6 @@ public class GiveCustomItemCommand implements CommandExecutor {
         }
 
         player.getInventory().addItem(target);
-        return false;
+        return true;
     }
 }

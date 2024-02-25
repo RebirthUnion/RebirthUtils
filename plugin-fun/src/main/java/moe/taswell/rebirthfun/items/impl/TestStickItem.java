@@ -3,7 +3,6 @@ package moe.taswell.rebirthfun.items.impl;
 import moe.taswell.rebirthfun.items.ItemBase;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextColor;
-import net.kyori.adventure.util.RGBLike;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
@@ -18,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class TestItem implements ItemBase {
+public class TestStickItem implements ItemBase {
     private static final ItemStack wrapped;
 
     static {
@@ -27,7 +26,11 @@ public class TestItem implements ItemBase {
         testWrapped.editMeta(meta -> {
             meta.displayName(Component.text("小棒♂棒♂").color(TextColor.color(255,192,203)));
             meta.addEnchant(Enchantment.FIRE_ASPECT,255,true);
+
+            meta.setUnbreakable(true);
+
             meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
             meta.lore(List.of(Component.text("♂♂♂♂♂♂♂♂♂").color(TextColor.color(255,192,203))));
         });
@@ -52,16 +55,14 @@ public class TestItem implements ItemBase {
 
     @Override
     public boolean onUseItem(Player user, @Nullable Block onBlock, Action action) {
-        if (onBlock == null){
-            user.spawnParticle(Particle.HEART,user.getLocation(),20);
-        }
+        user.spawnParticle(Particle.HEART,user.getLocation(),50);
 
         return true;
     }
 
     @Override
     public boolean onAttackEntity(Entity user, Entity attacked) {
-        attacked.getWorld().spawnParticle(Particle.HEART,attacked.getLocation(),20);
+        attacked.getWorld().spawnParticle(Particle.HEART,attacked.getLocation(),50);
 
         return true;
     }

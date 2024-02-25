@@ -1,7 +1,7 @@
 package moe.taswell.rebirthfun.items;
 
 import moe.taswell.rebirthfun.RebirthFun;
-import moe.taswell.rebirthfun.items.impl.TestItem;
+import moe.taswell.rebirthfun.items.impl.TestStickItem;
 import moe.taswell.rebirthutils.nms.api.nbt.PackagedCompoundTag;
 import moe.taswell.rebirthutils.nms.api.scheduler.ScheduledTask;
 import moe.taswell.rebirthutils.nms.shared.APIEntryPoint;
@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class RegistryManager {
+public class CustomItemRegistryManager {
     private static final Map<String,ItemBase> registedItems = new ConcurrentHashMap<>();
     private static final Map<String, CompletableFuture<Void>> allAsyncTickTasks = new ConcurrentHashMap<>();
     private static final Map<String,ItemStack> registedItemstacks = new ConcurrentHashMap<>();
@@ -63,8 +63,13 @@ public class RegistryManager {
     public static void loadForSingleItem(@NotNull ItemBase itemBase){
         final String itemRegistryString = itemBase.getItemName();
 
-        final ItemStack wrappedItemStack = itemBase.getItemWithoutNtag().clone();
-        final PackagedCompoundTag itemNbt = APIEntryPoint.getNbtManager().getTagOfItem(wrappedItemStack);
+        final ItemStack wrappedItemStack = APIEntryPoint.getNbtManager().fromNms(APIEntryPoint.getNbtManager().toNms(itemBase.getItemWithoutNtag()));
+        PackagedCompoundTag itemNbt = APIEntryPoint.getNbtManager().getTagOfItem(wrappedItemStack);
+
+        if(itemNbt == null){
+            itemNbt = APIEntryPoint.getNbtManager().createNew();
+            APIEntryPoint.getNbtManager().setTagOfItem(wrappedItemStack,itemNbt);
+        }
 
         if (itemNbt.contains("nname")){
             throw new IllegalStateException("The item which is going to be registed already contained nTag!");
@@ -84,8 +89,8 @@ public class RegistryManager {
     }
 
     public static void registerAllItems(){
-       final TestItem testItem = new TestItem();
-        registedItems.put(testItem.getItemName(),testItem);
+       final TestStickItem testStickItem = new TestStickItem();
+        registedItems.put(testStickItem.getItemName(), testStickItem);
     }
 
     public static void loadAllItems(){
@@ -107,7 +112,7 @@ public class RegistryManager {
     public static boolean onPlayerUseItem(Player player, ItemStack usedItem, @Nullable Block clickedOn, Action action){
         final PackagedCompoundTag itemNbt = APIEntryPoint.getNbtManager().getTagOfItem(usedItem);
 
-        if (!itemNbt.contains("nname")){
+        if (itemNbt == null || !itemNbt.contains("nname")){
             return true;
         }
 
@@ -130,7 +135,7 @@ public class RegistryManager {
 
         final PackagedCompoundTag itemNbt = APIEntryPoint.getNbtManager().getTagOfItem(usedItem);
 
-        if (!itemNbt.contains("nname")){
+        if (itemNbt == null || !itemNbt.contains("nname")){
             return true;
         }
 

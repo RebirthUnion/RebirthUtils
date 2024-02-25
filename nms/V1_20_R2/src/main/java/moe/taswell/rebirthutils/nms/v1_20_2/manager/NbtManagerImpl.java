@@ -9,6 +9,7 @@ import org.bukkit.craftbukkit.v1_20_R2.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.*;
+import java.lang.reflect.Constructor;
 
 public class NbtManagerImpl implements NbtManager {
     @Override
@@ -53,11 +54,27 @@ public class NbtManagerImpl implements NbtManager {
 
     @Override
     public PackagedCompoundTag getTagOfItem(ItemStack itemStack) {
-        return new PackagedCompoundTagImpl(CraftItemStack.unwrap(itemStack).getTag());
+        final CompoundTag got = CraftItemStack.unwrap(itemStack).getTag();
+
+        if (got == null){
+            return null;
+        }
+
+        return new PackagedCompoundTagImpl(got);
     }
 
     @Override
     public void setTagOfItem(ItemStack itemStack, PackagedCompoundTag tag) {
         CraftItemStack.unwrap(itemStack).setTag(((PackagedCompoundTagImpl) tag).internal);
+    }
+
+    @Override
+    public Object toNms(ItemStack bukkit){
+        return CraftItemStack.unwrap(bukkit);
+    }
+
+    @Override
+    public ItemStack fromNms(Object nms){
+        return CraftItemStack.asCraftMirror((net.minecraft.world.item.ItemStack) nms);
     }
 }

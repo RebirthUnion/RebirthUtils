@@ -1,22 +1,25 @@
 package moe.taswell.rebirthfun;
 
 import moe.taswell.rebirthfun.commands.GiveCustomItemCommand;
-import moe.taswell.rebirthfun.items.RegistryManager;
-import moe.taswell.rebirthfun.listener.PlayerEventListener;
+import moe.taswell.rebirthfun.items.CustomItemRegistryManager;
+import moe.taswell.rebirthfun.listener.PlayerEventListenerForItems;
 import org.bukkit.Bukkit;
+import org.bukkit.Registry;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
 
 public final class RebirthFun extends JavaPlugin {
     public static RebirthFun pluginInstance;
-
 
     @Override
     public void onEnable() {
         pluginInstance = this;
         this.getLogger().info("Loading items");
-        RegistryManager.init();
+        CustomItemRegistryManager.init();
         this.getLogger().info("Register event listener");
-        Bukkit.getPluginManager().registerEvents(new PlayerEventListener(),this);
+        Bukkit.getPluginManager().registerEvents(new PlayerEventListenerForItems(),this);
         this.getLogger().info("Register commands");
         Bukkit.getPluginCommand("gcitem").setExecutor(new GiveCustomItemCommand());
     }
@@ -24,8 +27,8 @@ public final class RebirthFun extends JavaPlugin {
     @Override
     public void onDisable() {
         this.getLogger().info("Stopping tick tasks");
-        RegistryManager.stopTicking();
+        CustomItemRegistryManager.stopTicking();
         this.getLogger().info("Unloading registries");
-        RegistryManager.unloadAllRegistry();
+        CustomItemRegistryManager.unloadAllRegistry();
     }
 }
