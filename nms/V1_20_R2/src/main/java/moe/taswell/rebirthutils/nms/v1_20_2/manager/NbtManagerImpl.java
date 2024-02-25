@@ -53,11 +53,11 @@ public class NbtManagerImpl implements NbtManager {
 
     @Override
     public PackagedCompoundTag getTagOfItem(ItemStack itemStack) {
-        return new PackagedCompoundTagImpl(((CraftItemStack) itemStack).handle.getTag());
+        return new PackagedCompoundTagImpl(CraftItemStack.unwrap(itemStack).getTag());
     }
 
     @Override
     public void setTagOfItem(ItemStack itemStack, PackagedCompoundTag tag) {
-        ((CraftItemStack) itemStack).handle.setTag(((PackagedCompoundTagImpl) tag).internal);
+        CraftItemStack.unwrap(itemStack).setTag(((PackagedCompoundTagImpl) tag).internal);
     }
 }
