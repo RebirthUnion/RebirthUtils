@@ -1,8 +1,0 @@
-messages:
-  title:
-    on_player_join:
-      - "aaaaa|oooa"
-      - "bbbb|ovo"
-    delay_per_msg: 10
-  on_chat_too_fast: "You are chatting too fast in 1s!Please wait for a moment"
-chat_speed_limit_per_second: 3

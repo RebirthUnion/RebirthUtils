@@ -52,18 +52,22 @@ public class APIEntryPoint {
         }
     }
 
+    @NotNull
     public static SchedulerService getSchedulerService(){
         return SCHEDULER_SERVICE;
     }
 
+    @NotNull
     public static NbtManager getNbtManager(){
         return NBT_MANAGER;
     }
 
+    @NotNull
     public static PlayerEventHooks getPlayerEventHooks() {
         return PLAYER_EVENT_HOOKS;
     }
 
+    @NotNull
     public static PlayerManager getPlayerManager() {
         return PLAYER_MANAGER;
     }
@@ -73,6 +77,7 @@ public class APIEntryPoint {
         return BASE_PACKAGE_NAME + NMS_VERSION;
     }
 
+    @NotNull
     public static String getBaseAPIModuleName(){
         return API_PACKAGE_NAME;
     }
